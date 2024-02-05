@@ -1,11 +1,6 @@
 const addProductNode = document.querySelector("#add_product");
 let products = [];/*let, чтобы можно было менять массив(сначала массив пустой)*/
 
-// const root= document.querySelector("#message");
-// const messageNode = document.createElement("p");
-// messageNode.innerText = products.length!==0? "":"Товара нет";
-// root.append(messageNode);
-
 addProductNode.addEventListener("submit", event =>{/*заполняем массив с помощью обработчика события*/ 
     event.preventDefault();/*отменили поведение по дефолту*/
     const title = event.target.title.value;/*создаем ключи для объектов: title, price, count */
@@ -75,6 +70,10 @@ function rerender(){
 function remove(title){
     const newProducts = products.filter(e => e.title !== title);/*оставляем все продукты, название кот. не совпадает с названием продукта, кот. мы хотим удалить */
     products = newProducts;/*перезаписали новый массив в старый */
+    const root= document.querySelector("#message");
+    const messageNode = document.createElement("p");
+    messageNode.innerText = products.length!==0? "":"Товара нет";
+    root.append(messageNode);
     rerender();/*создали карточки и добавили их в div*/
 }
 
