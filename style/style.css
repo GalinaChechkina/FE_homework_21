@@ -1,0 +1,25 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#add_product{
+    margin: 50px;
+    padding: 30px;
+
+}
+#message{
+    margin: 10px 80px;
+}
+.products{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;/*отступ между эл-ми*/
+    padding: 20px;
+}
+.product_cart{
+    border: 1px solid black;
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
