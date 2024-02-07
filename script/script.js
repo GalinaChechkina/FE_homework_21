@@ -1,5 +1,7 @@
 const addProductNode = document.querySelector("#add_product");
-let products = [];/*let, чтобы можно было менять массив(сначала массив пустой)*/
+let products = [
+    // {count: 10}
+];/*let, чтобы можно было менять массив(сначала массив пустой)*/
 
 addProductNode.addEventListener("submit", event =>{/*заполняем массив с помощью обработчика события*/ 
     event.preventDefault();/*отменили поведение по дефолту*/
@@ -31,16 +33,21 @@ function createProductCart(title, price, count){//создаем карточк�
 
     const buttonsNode = document.createElement("div");/*добавили контейнер для кнопок*/
     const decreaseButtonNode = document.createElement("button");/*добавили кнопку уменьшения кол-ва товара*/
-    decreaseButtonNode.innerText = "<<";
+    decreaseButtonNode.innerText = "-";
     decreaseButtonNode.addEventListener("click",()=> {
-        count--;
-        countNode.innerText = count>=0? count: count=0;
+        const currentProduct = products.find(product => product.title === title);
+        if (count === 0){
+            return;
+        }
+        currentProduct.count--;
+        rerender();
     });
     const increaseButtonNode = document.createElement("button");/*добавили кнопку увеличения кол-ва товара*/
-    increaseButtonNode.innerText = ">>";
+    increaseButtonNode.innerText = "+";
     increaseButtonNode.addEventListener("click",()=> {
-        count++;
-        countNode.innerText = count;
+        const currentProduct = products.find(product => product.title === title);
+        currentProduct.count++;
+        rerender();
     });
     buttonsNode.append(decreaseButtonNode, increaseButtonNode);
     buttonsNode.style.margin = "auto 20px";
@@ -64,16 +71,18 @@ function createProductCart(title, price, count){//создаем карточк�
 function rerender(){
     const productsNode = document.querySelector(".products");
     productsNode.innerText = ""; //очистили productsNode, записав в него пустую строку
-    products.forEach(({title, price, count}) => productsNode.append(createProductCart(title, price, count))); 
+    const messageNode = document.createElement("p");
+    messageNode.innerText = products.length!==0? "":"Товара нет";
+    productsNode.append(messageNode);
+    products.forEach(({title, price, count}) => 
+        productsNode.append(createProductCart(title, price, count))); 
 }
 
 function remove(title){
     const newProducts = products.filter(e => e.title !== title);/*оставляем все продукты, название кот. не совпадает с названием продукта, кот. мы хотим удалить */
     products = newProducts;/*перезаписали новый массив в старый */
-    const root= document.querySelector("#message");
-    const messageNode = document.createElement("p");
-    messageNode.innerText = products.length!==0? "":"Товара нет";
-    root.append(messageNode);
     rerender();/*создали карточки и добавили их в div*/
 }
+
+rerender();/*нужно вызвать эту ф-ю, чтобы отбивка появилась сначала, когда товара еще нет */
 
